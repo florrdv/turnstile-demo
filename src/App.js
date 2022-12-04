@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
-import './App.css';
 import { Turnstile } from '@marsidev/react-turnstile';
-import {useState} from "react"
+import { useState } from "react"
 
 function App() {
   const [turnstileResponse, setTurnstileResponse] = useState(null)
@@ -20,24 +19,27 @@ function App() {
     // Do something with the data
     // e.g.
     // await fetch("https://mydomain.com/myapi/vote", { method: "POST", "headers": { "content-type": "application/json" }, body: JSON.stringify(data) })
-    console.log(data)
+    alert(JSON.stringify(data, null, 4))
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register('firstName')} />
-        <input {...register('lastName', { required: true })} />
-        <input type="submit" />
+    <div style={{ width: "100vw", height: "100vh", background: "black", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div>
+        <form onSubmit={handleSubmit(onSubmit)} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <input placeholder='First name' {...register('firstName')} />
+          <input placeholder='Last name' {...register('lastName', { required: true })} />
+          <input type='submit' />
 
-        <Turnstile 
-          onSuccess={setTurnstileResponse} 
-          onError={() => setTurnstileError("Invalid captcha response, please try again later.")} 
-          onExpire={() => setTurnstileError("Your captcha response has expired, please try again.")} 
-          siteKey="0x4AAAAAAABeHJ1RWCe4V-HV" 
-        />
-      </form>
-      {turnstileError || (errors.lastName && <p>Last name is required.</p>)}
+          <Turnstile 
+            onSuccess={setTurnstileResponse} 
+            onError={() => setTurnstileError('Invalid captcha response, please try again later.')} 
+            onExpire={() => setTurnstileError('Your captcha response has expired, please try again.')} 
+            siteKey='0x4AAAAAAABeHJ1RWCe4V-HV' 
+          />
+        </form>
+        {turnstileError || (errors.lastName && <p>Last name is required.</p>)}
+
+      </div>
     </div>
   );
 }
